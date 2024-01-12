@@ -1,4 +1,5 @@
 const express = require("express");
+const router = express.Router();
 const Location = require("../models/LocationMaster");
 
 // Add Location
@@ -76,6 +77,20 @@ const addLocation = async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   };
+
+
+router.get("/locations", async (req, res) => {
+  try {
+    const locations = await Location.find();
+    res.json(locations);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred" });
+  }
+});
+
+module.exports = router;
+
   
   module.exports = {
     addLocation,

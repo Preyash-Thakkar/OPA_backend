@@ -1,5 +1,6 @@
 const express = require("express");
 const DepartmentType = require("../models/DepartmentType");
+const router = express.Router();
 
 // Add Type
 const addDepartmentType = async (req, res) => {
@@ -95,7 +96,18 @@ const addDepartmentType = async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   };
-  
+  router.get("/department-types/:departmentGroupId", async (req, res) => {
+  try {
+    const { departmentGroupId } = req.params;
+    const departmentTypes = await DepartmentType.find({ departmentGroupId });
+    res.json(departmentTypes);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred" });
+  }
+});
+module.exports = router;
+
   module.exports = {
     addDepartmentType,
     editDepartmentType,

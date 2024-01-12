@@ -1,4 +1,5 @@
 const express = require("express");
+const router = express.Router();
 const DepartmentGroup = require("../models/DepartmentGroupMaster");
 
 // Add Location
@@ -76,6 +77,22 @@ const addDepartmentGroup = async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   };
+
+ //get Departmentgrps by their respective location id
+
+router.get("/department-groups/:locationId", async (req, res) => {
+  try {
+    const { locationId } = req.params;
+    const departmentGroups = await DepartmentGroup.find({ locationId });
+    res.json(departmentGroups);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred" });
+  }
+});
+
+module.exports = router;
+
   
   module.exports = {
     addDepartmentGroup,

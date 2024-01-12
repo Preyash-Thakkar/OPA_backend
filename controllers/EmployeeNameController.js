@@ -1,4 +1,5 @@
 const express = require("express");
+const router = express.Router();
 const EmployeesNames = require("../models/EmployeeName");
 
 // Add Type
@@ -80,7 +81,18 @@ const addEmployeeName = async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   };
-  
+  router.get("/employee-names/:employeeRoleId", async (req, res) => {
+    try {
+      const { employeeRoleId } = req.params;
+      const employeeNames = await EmployeeName.find({ employeeRoleId });
+      res.json(employeeNames);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "An error occurred" });
+    }
+  });  
+  module.exports = router;
+
   module.exports = {
     addEmployeeName,
     editEmployeeName,

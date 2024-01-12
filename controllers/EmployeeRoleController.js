@@ -1,4 +1,5 @@
 const express = require("express");
+const router = express.Router();
 const EmployessRoles = require("../models/EmployeesRole");
 
 // Add Type
@@ -106,8 +107,20 @@ const addEmployeeRole = async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   };
-  
-  module.exports = {
+  //get Employee Roles with their respective Department ID
+  router.get("/employee-roles/:departmentTypeId", async (req, res) => {
+    try {
+      const { departmentTypeId } = req.params;
+      const employeeRoles = await EmployeesRole.find({ departmentTypeId });
+      res.json(employeeRoles);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "An error occurred" });
+    }
+  });
+   module.exports = router;
+
+   module.exports = {
     addEmployeeRole,
     editEmployeeRole,
     deleteEmployeeRole,

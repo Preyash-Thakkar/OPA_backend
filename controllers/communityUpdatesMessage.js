@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const router = express.Router();
 const CommunityUpdatesMessage = require("../models/communityUpdatesMessage");
 const CommunityUpdatesMessage = require("../models/DepartmentType");
 const CommunityUpdatesMessage = require("../models/EmployeesRole");
@@ -7,11 +8,18 @@ const DepartmentGroup = require("../models/DepartmentGroupMaster");
 const DepartmentType = require("../models/DepartmentType");
 const EmployeeRoles = require("../models/EmployeesRole");
 
-const mongoose = require("mongoose");
-const CommunityUpdatesMessage = require("../models/communityUpdatesMessage");
-const DepartmentGroup = require("../models/DepartmentGroupMaster");
-const DepartmentType = require("../models/DepartmentType");
-const EmployeeRoles = require("../models/EmployeesRole");
+router.get("/department-groups/:locationId", async (req, res) => {
+  try {
+    const { locationId } = req.params;
+    const departmentGroups = await DepartmentGroup.find({ locationId });
+    res.json(departmentGroups);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred" });
+  }
+});
+
+module.exports = router;
 
 exports.createCommunityUpdatesMessage = async (req, res) => {
   console.log("body", req.body);
